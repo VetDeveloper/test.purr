@@ -18,8 +18,6 @@ export class OwnerGuard implements CanActivate {
             const user : User = this.jwtservice.verify(token);
             req.user = user;
 
-            console.log(user)
-
             return user.id === parseInt(req.params.user_id)
 
         } catch (e) {
