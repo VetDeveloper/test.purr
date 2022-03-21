@@ -15,6 +15,7 @@ export class ColumnsController {
     @ApiOperation({summary: 'Создание колонки'})
     @ApiResponse({status: 201, type: Colum})
     @ApiNotFoundResponse({description: "Not found."})
+    @UseGuards(OwnerGuard)
     @Post()
     create(@Param('user_id') user_id : number, @Body() columnsDto : CreateColumnDTO) {
         return this.columnsService.createColumn(user_id, columnsDto);

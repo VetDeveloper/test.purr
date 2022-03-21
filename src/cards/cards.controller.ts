@@ -15,6 +15,7 @@ export class CardsController {
     @ApiOperation({summary: 'Создание карточки пользователя в определенной колонки'})
     @ApiResponse({status: 201, type: Card})
     @ApiNotFoundResponse({description: "Not found."})
+    @UseGuards(OwnerGuard)
     @Post()
         create(
             @Param('user_id') user_id : number, 

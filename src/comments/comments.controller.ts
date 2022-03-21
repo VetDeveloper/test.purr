@@ -15,6 +15,7 @@ export class CommentsController {
     @ApiOperation({summary: 'Создание комментария'})
     @ApiResponse({status: 201, type: Commentary})
     @ApiNotFoundResponse({description: "Not found."})
+    @UseGuards(OwnerGuard)
     @Post()
     create(
         @Param('user_id') user_id : number,

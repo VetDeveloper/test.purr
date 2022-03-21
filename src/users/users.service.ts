@@ -13,7 +13,7 @@ export class UsersService {
     async createUser(dto : CreateUserDTO) : Promise<User> {
         const user = this.userRepository.create(dto);
         this.userRepository.save(user);
-        return user;
+        return await this.getUserByEmail(user.email);
     }
 
     async getAllUsers() : Promise<User[]> {
