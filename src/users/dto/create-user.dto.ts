@@ -3,6 +3,7 @@ import { IsEmail, IsNotEmpty, IsString, Length, MaxLength, MinLength } from "cla
 
 export class CreateUserDTO {
 
+    // максимальная длина имейла 256 символов, не нужно ограничение
     @ApiProperty({example: 'user@mail.ru', description: 'Почта'})
     @IsEmail()
     @MaxLength(35)
@@ -13,6 +14,7 @@ export class CreateUserDTO {
     @IsString()
     readonly password : string;
 
+    // и здесь не нужно
     @ApiProperty({example: 'Александр', description: 'Имя'})
     @IsString()
     @IsNotEmpty()

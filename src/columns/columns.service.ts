@@ -8,10 +8,10 @@ import { UpdateColumnDTO } from './dto/update-column.dto';
 
 @Injectable()
 export class ColumnsService {
-    
+    // форматируй файлы с помощью преттиер/еслинта (настраивается в твоем редакторе)
     constructor
     (@InjectRepository(Colum) private columnsRepository: Repository<Colum>,
-    private usersRepository : UsersService    
+    private usersRepository : UsersService // репозиторий или сервис?
     ) {}
 
     async createColumn(user_id : number, dto : CreateColumnDTO) : Promise<Colum> {
@@ -34,15 +34,15 @@ export class ColumnsService {
     }
 
     async getOneColumn(id : number, user_id : number) : Promise<Colum> {
-        
+
         const column = await this.columnsRepository.findOne({ where: { userId : user_id, id: id } });
-            
+
         if (!column) {
             throw new HttpException('Not found', HttpStatus.NOT_FOUND);
-        }         
+        }
 
         return column;
-        
+
     }
 
     async updateColumn(user_id : number, id: number, dto: UpdateColumnDTO) : Promise<Colum> {

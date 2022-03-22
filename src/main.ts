@@ -9,6 +9,7 @@ async function bootstrap() {
   const PORT = process.env.PORT || 5000
   const app = await NestFactory.create(AppModule);
 
+  // добавь в сваггер авторизацию через jwt, в доках неста есть
   const config = new DocumentBuilder()
         .setTitle('Trello-purr')
         .setDescription('Документация мини-приложения Trello-purr')

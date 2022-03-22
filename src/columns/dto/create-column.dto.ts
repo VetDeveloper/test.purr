@@ -3,6 +3,7 @@ import { IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
 
 export class CreateColumnDTO {
 
+    // ограничения на длину не нужны
     @ApiProperty({example: 'Отложенные дела', description: 'Название колонки'})
     @IsString()
     @IsNotEmpty()

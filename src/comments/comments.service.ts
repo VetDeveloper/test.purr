@@ -10,7 +10,7 @@ import { UpdateCommentaryDTO } from './dto/update-commentary.dto';
 
 @Injectable()
 export class CommentsService {
-    
+
     constructor(
         @InjectRepository(Commentary) private commentsRepository: Repository<Commentary>,
         private cardsService : CardsService,
@@ -24,7 +24,7 @@ export class CommentsService {
             cardId : card_id,
             ...dto
         })
-        this.commentsRepository.save(commentary);
+        this.commentsRepository.save(commentary); // результат работы сейв: сохраненная сущность, лучше его возвращать
         return commentary;
     }
 

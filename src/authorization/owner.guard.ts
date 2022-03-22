@@ -11,7 +11,7 @@ export class OwnerGuard implements CanActivate {
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
         const req = context.switchToHttp().getRequest()
         try {
-            
+
             const authHeader = req.headers.authorization;
             const token = authHeader.split(' ')[1]
 
@@ -21,8 +21,9 @@ export class OwnerGuard implements CanActivate {
             return user.id === parseInt(req.params.user_id)
 
         } catch (e) {
+            // так же, можно просто ForbiddenException
             throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
         }
     }
-    
+
 }

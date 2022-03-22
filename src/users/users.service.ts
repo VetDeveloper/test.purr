@@ -12,6 +12,7 @@ export class UsersService {
 
     async createUser(dto : CreateUserDTO) : Promise<User> {
         const user = this.userRepository.create(dto);
+        // нужен авейт, может вернуть ничего
         this.userRepository.save(user);
         return await this.getUserByEmail(user.email);
     }
@@ -31,6 +32,7 @@ export class UsersService {
 
     async updateUser(id: number, dto: UpdateUserDTO) : Promise<User> {
         const user = await this.getOneUser(id);
+        // а если существует с таким имейлом?
         return await this.userRepository.save(
             {
                 ...user,
@@ -43,7 +45,10 @@ export class UsersService {
         return await this.userRepository.remove(user);
     }
 
+    // указывай возвращаемы типы: повышается читаемость и
+    // компилятор ошибки будет подсвечивать, если не то в return кладешь
     async getUserByEmail(email: string) {
+        // константа не нужна, возвращай сразу и без await
         const user = await this.userRepository.findOne({where: {email}})
         return user;
     }

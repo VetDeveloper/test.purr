@@ -19,8 +19,10 @@ export class AuthorizationService {
 
     async registration(userDto: CreateUserDTO) {
         const isUserAlreadyExist = await this.userService.getUserByEmail(userDto.email);
-        
+
         if (isUserAlreadyExist) {
+            // не ошибка, но в Nest уже есть исключения под все коды ошибок, лучше используй их (читается лучше)
+            // throw new BadRequestException()
             throw new HttpException('Пользователь с таким email УЖЕ существует', HttpStatus.BAD_REQUEST);
         }
 
@@ -40,11 +42,16 @@ export class AuthorizationService {
         const user = await this.userService.getUserByEmail(userDto.email);
 
         if (!user) {
+            // вот, тут же использовал нестовую ошибку 😄
+            // message, однако, лучше оставить дефолтным -- передать в эксепшн просто строку,
+            // у тебя тогда будет общий текст ошибки -- Unauthorized
+            // и дополнительно твое сообщение
             throw new UnauthorizedException({message: 'Некорректный емайл'})
         }
 
         const passwordEquals = await bcrypt.compare(userDto.password, user.password);
 
+        // точки с запятой теряешь иногда, не ошибка, но просто не консистентно выходит
         if (!passwordEquals) {
             throw new UnauthorizedException({message: 'Некорректный пароль'})
         }

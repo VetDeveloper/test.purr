@@ -11,12 +11,17 @@ export class UsersController {
 
     constructor(private usersService: UsersService) {}
 
+    // Зачем create оставил, если в authorization модуле есть регистрация?
     @ApiOperation({summary: 'Создание пользователя'})
+    // вместо сущностей лучше возвращать объекты классов на основе этих сущностей
+    // сейчас у тебя пусть и захешированный, но пароль возвращается (такую информацию лучше не показывать никому)
+    // это ко всем контроллерам относится
     @ApiResponse({status: 201, type: User})
     @Post()
     create(@Body() userDto : CreateUserDTO) {
         return this.usersService.createUser(userDto);
     }
+
 
     @ApiOperation({summary: 'Получение всех пользователей'})
     @ApiResponse({status: 200, type: [User]})
@@ -26,13 +31,14 @@ export class UsersController {
     }
 
     @ApiOperation({summary: 'Получение одного пользователя'})
-    @ApiResponse({status: 200, type: User}) 
+    @ApiResponse({status: 200, type: User})
     @ApiNotFoundResponse({description: "Not found."})
     @Get('/:id')
     getOneUser(@Param('id') id : number) {
         return this.usersService.getOneUser(id)
     }
 
+    // тут тоже нет гардов
     @ApiOperation({summary: 'Обновление пользователя'})
     @ApiResponse({status: 200, type: User})
     @ApiNotFoundResponse({description: "Not found."})
@@ -41,6 +47,7 @@ export class UsersController {
         return this.usersService.updateUser(id, userDto);
     }
 
+    // тут тоже нет гардов
     @ApiOperation({summary: 'Удаление пользователя'})
     @ApiResponse({status: 200, type: User})
     @ApiNotFoundResponse({description: "Not found."})

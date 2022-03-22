@@ -22,6 +22,7 @@ export class CommentsController {
         @Param('card_id') card_id : number,
         @Body() commentsDto : CreateCommentaryDTO
         ) {
+        // опечатка
         return this.commentsService.createCommentaty(user_id, card_id, commentsDto);
     }
 
@@ -30,7 +31,7 @@ export class CommentsController {
     @ApiNotFoundResponse({description: "Not found."})
     @Get()
     getAllComments(
-        @Param('user_id') user_id : number, 
+        @Param('user_id') user_id : number,
         @Param('column_id') column_id : number,
         @Param('card_id') card_id : number
     ) {
@@ -42,7 +43,7 @@ export class CommentsController {
     @ApiNotFoundResponse({description: "Not found."})
     @Get('/:id')
     getOneCommentaty(
-        @Param('user_id') user_id : number, 
+        @Param('user_id') user_id : number,
         @Param('column_id') column_id : number,
         @Param('card_id') card_id : number,
         @Param('id') id : number) {
@@ -56,10 +57,10 @@ export class CommentsController {
     @UseGuards(OwnerGuard)
     @Patch('/:id')
     updateCommentary(
-        @Param('user_id') user_id : number, 
+        @Param('user_id') user_id : number,
         @Param('column_id') column_id : number,
         @Param('card_id') card_id : number,
-        @Param('id') id : number, 
+        @Param('id') id : number,
         @Body() commentaryDto : UpdateCommentaryDTO) {
         return this.commentsService.updateCommentary(user_id, column_id, card_id, id, commentaryDto);
     }
@@ -71,7 +72,7 @@ export class CommentsController {
     @UseGuards(OwnerGuard)
     @Delete('/:id')
     deleteColumn(
-        @Param('user_id') user_id : number, 
+        @Param('user_id') user_id : number,
         @Param('column_id') column_id : number,
         @Param('card_id') card_id : number,
         @Param('id') id : number

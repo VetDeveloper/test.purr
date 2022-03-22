@@ -8,13 +8,14 @@ import { UpdateCardDTO } from './dto/update-card.dto';
 
 @Injectable()
 export class CardsService {
-    
+
     constructor(@InjectRepository(Card) private cardsRepository: Repository<Card>,
-                private usersRepository : UsersService
+                private usersRepository : UsersService // репозиторий или сервис?
     ) {}
 
     async createCard(user_id : number, column_id : number, dto : CreateCardDTO) : Promise<Card> {
         await this.usersRepository.getOneUser(user_id);
+        // колонка?
         const column = this.cardsRepository.create(
             {
                 userId : user_id,

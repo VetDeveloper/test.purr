@@ -5,7 +5,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 
 @Entity()
 export class Colum {
-    
+
     @ApiProperty({example: '1', description: 'Идентификационный номер'})
     @PrimaryGeneratedColumn()
     id: number;
@@ -31,7 +31,7 @@ export class Colum {
         nullable: true
     })
     description: string;
-    
+
     @ApiProperty({example: '2022-03-12 02:14:08.956309', description: 'Дата создания колонки'})
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
     created_at: Date;
@@ -41,6 +41,9 @@ export class Colum {
     updated_at: Date;
 
 
+    // сущности не грузятся вместе с основной (т.е. юзер не загрузится в колонке)
+    // нужно это учитывать
+    // да и вообще неправильно указал связь, почитай доки тайпорма
     @ManyToOne(() => User, user => user.id)
     user: User;
 
