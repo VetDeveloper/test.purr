@@ -12,7 +12,7 @@ import { ColumnsService } from './columns.service';
   imports: [
     TypeOrmModule.forFeature([Colum]),
     UsersModule,
-    AuthorizationModule
-  ]
+    AuthorizationModule,
+  ],
 })
 export class ColumnsModule {}

@@ -9,11 +9,7 @@ import { CardsService } from './cards.service';
 @Module({
   controllers: [CardsController],
   providers: [CardsService],
-  imports: [
-    TypeOrmModule.forFeature([Card]),
-    UsersModule,
-    AuthorizationModule
-  ],
-  exports: [CardsService]
+  imports: [TypeOrmModule.forFeature([Card]), UsersModule, AuthorizationModule],
+  exports: [CardsService],
 })
 export class CardsModule {}

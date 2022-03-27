@@ -1,10 +1,6 @@
 {
   "type": "postgres",
-  "host": "localhost",
-  "port": 5432,
-  "username": "postgres",
-  "password": "sashkamihaylov.",
-  "database": "trelloPurr",
+  "url" : "postgres://lpsgapel:xgvyX2UMwlXkZ0KEr10FPp_Tf5N185PQ@balarama.db.elephantsql.com/lpsgapel",
   "entities": ["dist/**/*.entity{.ts,.js}"],
   "synchronize": true
 }

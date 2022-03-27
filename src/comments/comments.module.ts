@@ -14,7 +14,7 @@ import { UsersModule } from 'src/users/users.module';
     TypeOrmModule.forFeature([Commentary]),
     CardsModule,
     UsersModule,
-    AuthorizationModule  
-  ]
+    AuthorizationModule,
+  ],
 })
 export class CommentsModule {}
