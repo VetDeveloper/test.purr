@@ -28,6 +28,7 @@ export class ColumnsService {
     await this.usersService.getOneUser(user_id);
     const columns = await this.columnsRepository.find({
       where: { userId: user_id },
+      relations: ['user', 'cards'],
     });
     return columns;
   }
@@ -35,6 +36,7 @@ export class ColumnsService {
   async getOneColumn(id: number, user_id: number): Promise<Colum> {
     const column = await this.columnsRepository.findOne({
       where: { userId: user_id, id: id },
+      relations: ['user', 'cards'],
     });
 
     if (!column) {

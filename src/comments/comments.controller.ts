@@ -35,15 +35,17 @@ export class CommentsController {
   @ApiBearerAuth()
   @UseGuards(OwnerGuard)
   @Post()
-  create(
+  async create(
     @Param('user_id') user_id: number,
     @Param('card_id') card_id: number,
     @Body() createCommentaryDTO: CreateCommentaryDTO,
   ): Promise<ResponseCommentatyDTO> {
-    return this.commentsService.createCommentaty(
-      user_id,
-      card_id,
-      createCommentaryDTO,
+    return new ResponseCommentatyDTO(
+      await this.commentsService.createCommentaty(
+        user_id,
+        card_id,
+        createCommentaryDTO,
+      ),
     );
   }
 
@@ -54,12 +56,14 @@ export class CommentsController {
   @ApiResponse({ status: 200, type: [ResponseCommentatyDTO] })
   @ApiNotFoundResponse({ description: 'Not found.' })
   @Get()
-  getAllComments(
+  async getAllComments(
     @Param('user_id') user_id: number,
     @Param('column_id') column_id: number,
     @Param('card_id') card_id: number,
   ): Promise<ResponseCommentatyDTO[]> {
-    return this.commentsService.getAllComments(user_id, column_id, card_id);
+    return (
+      await this.commentsService.getAllComments(user_id, column_id, card_id)
+    ).map((com) => new ResponseCommentatyDTO(com));
   }
 
   @ApiOperation({
@@ -69,17 +73,19 @@ export class CommentsController {
   @ApiResponse({ status: 200, type: ResponseCommentatyDTO })
   @ApiNotFoundResponse({ description: 'Not found.' })
   @Get('/:id')
-  getOneCommentaty(
+  async getOneCommentaty(
     @Param('user_id') user_id: number,
     @Param('column_id') column_id: number,
     @Param('card_id') card_id: number,
     @Param('id') id: number,
   ): Promise<ResponseCommentatyDTO> {
-    return this.commentsService.getOneCommentaty(
-      user_id,
-      column_id,
-      card_id,
-      id,
+    return new ResponseCommentatyDTO(
+      await this.commentsService.getOneCommentaty(
+        user_id,
+        column_id,
+        card_id,
+        id,
+      ),
     );
   }
 
@@ -93,19 +99,21 @@ export class CommentsController {
   @ApiBearerAuth()
   @UseGuards(OwnerGuard)
   @Patch('/:id')
-  updateCommentary(
+  async updateCommentary(
     @Param('user_id') user_id: number,
     @Param('column_id') column_id: number,
     @Param('card_id') card_id: number,
     @Param('id') id: number,
     @Body() commentaryDto: UpdateCommentaryDTO,
   ): Promise<ResponseCommentatyDTO> {
-    return this.commentsService.updateCommentary(
-      user_id,
-      column_id,
-      card_id,
-      id,
-      commentaryDto,
+    return new ResponseCommentatyDTO(
+      await this.commentsService.updateCommentary(
+        user_id,
+        column_id,
+        card_id,
+        id,
+        commentaryDto,
+      ),
     );
   }
 
@@ -119,17 +127,19 @@ export class CommentsController {
   @ApiBearerAuth()
   @UseGuards(OwnerGuard)
   @Delete('/:id')
-  deleteColumn(
+  async deleteColumn(
     @Param('user_id') user_id: number,
     @Param('column_id') column_id: number,
     @Param('card_id') card_id: number,
     @Param('id') id: number,
   ): Promise<ResponseCommentatyDTO> {
-    return this.commentsService.deleteCommentary(
-      user_id,
-      column_id,
-      card_id,
-      id,
+    return new ResponseCommentatyDTO(
+      await this.commentsService.deleteCommentary(
+        user_id,
+        column_id,
+        card_id,
+        id,
+      ),
     );
   }
 }

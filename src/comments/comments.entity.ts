@@ -40,9 +40,13 @@ export class Commentary {
   })
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.comments)
+  @ManyToOne(() => User, (user) => user.comments, {
+    onDelete: 'CASCADE',
+  })
   user: User;
 
-  @ManyToOne(() => Card, (card) => card.comments)
+  @ManyToOne(() => Card, (card) => card.comments, {
+    onDelete: 'CASCADE',
+  })
   card: Card;
 }

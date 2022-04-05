@@ -26,6 +26,8 @@ export class OwnerGuard implements CanActivate {
       const user: User = this.jwtservice.verify(token);
       req.user = user;
 
+      console.log(user.id, req.params.user_id);
+
       return user.id === parseInt(req.params.user_id);
     } catch (e) {
       throw new ForbiddenException();

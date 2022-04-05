@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Card } from 'src/cards/cards.entity';
 import { CardsService } from 'src/cards/cards.service';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
@@ -39,6 +38,7 @@ export class CommentsService {
   ): Promise<Commentary[]> {
     const comments = await this.commentsRepository.find({
       where: { userId: user_id, cardId: card_id },
+      relations: ['user', 'card'],
     });
     await this.cardsService.getOneCard(user_id, column_id, card_id);
     if (!comments) {
@@ -55,6 +55,7 @@ export class CommentsService {
   ): Promise<Commentary> {
     const commentary = await this.commentsRepository.findOne({
       where: { userId: user_id, cardId: card_id, id: id },
+      relations: ['user', 'card'],
     });
     await this.cardsService.getOneCard(user_id, column_id, card_id);
     if (!commentary) {

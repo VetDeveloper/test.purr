@@ -22,12 +22,16 @@ export class UsersService {
   }
 
   async getAllUsers(): Promise<User[]> {
-    const users = await this.userRepository.find();
+    const users = await this.userRepository.find({
+      relations: ['columns', 'cards', 'comments'],
+    });
     return users;
   }
 
   async getOneUser(id: number): Promise<User> {
-    const user = await this.userRepository.findOne(id);
+    const user = await this.userRepository.findOne(id, {
+      relations: ['columns', 'cards', 'comments'],
+    });
     if (!user) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
@@ -36,7 +40,7 @@ export class UsersService {
 
   async updateUser(id: number, dto: UpdateUserDTO): Promise<User> {
     const user = await this.getOneUser(id);
-    const isAlreadyExists = this.getUserByEmail(dto.email);
+    const isAlreadyExists = await this.getUserByEmail(dto.email);
 
     if (isAlreadyExists) {
       throw new BadRequestException(
@@ -56,6 +60,9 @@ export class UsersService {
   }
 
   async getUserByEmail(email: string): Promise<User> {
-    return await this.userRepository.findOne({ where: { email } });
+    return await this.userRepository.findOne({
+      where: { email },
+      relations: ['columns', 'cards', 'comments'],
+    });
   }
 }

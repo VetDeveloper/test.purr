@@ -35,32 +35,38 @@ export class ColumnsController {
   @ApiBearerAuth()
   @UseGuards(OwnerGuard)
   @Post()
-  create(
+  async create(
     @Param('user_id') user_id: number,
     @Body() columnsDto: CreateColumnDTO,
   ): Promise<ResponseColumnDTO> {
-    return this.columnsService.createColumn(user_id, columnsDto);
+    return new ResponseColumnDTO(
+      await this.columnsService.createColumn(user_id, columnsDto),
+    );
   }
 
   @ApiOperation({ summary: 'Получение всех колонок пользователя' })
   @ApiResponse({ status: 200, type: [ResponseColumnDTO] })
   @ApiNotFoundResponse({ description: 'Not found.' })
   @Get()
-  getAllColumns(
+  async getAllColumns(
     @Param('user_id') user_id: number,
   ): Promise<ResponseColumnDTO[]> {
-    return this.columnsService.getAllColumns(user_id);
+    return (await this.columnsService.getAllColumns(user_id)).map(
+      (column) => new ResponseColumnDTO({ ...column }),
+    );
   }
 
   @ApiOperation({ summary: 'Получение определенной колонки пользователя' })
   @ApiResponse({ status: 200, type: ResponseColumnDTO })
   @ApiNotFoundResponse({ description: 'Not found.' })
   @Get('/:id')
-  getOneColumn(
+  async getOneColumn(
     @Param('user_id') user_id: number,
     @Param('id') id: number,
   ): Promise<ResponseColumnDTO> {
-    return this.columnsService.getOneColumn(id, user_id);
+    return new ResponseColumnDTO(
+      await this.columnsService.getOneColumn(id, user_id),
+    );
   }
 
   @ApiOperation({ summary: 'Обновление колонки пользователя' })
@@ -70,12 +76,14 @@ export class ColumnsController {
   @Patch('/:id')
   @ApiBearerAuth()
   @UseGuards(OwnerGuard)
-  updateColumn(
+  async updateColumn(
     @Param('user_id') user_id: number,
     @Param('id') id: number,
     @Body() columnDto: UpdateColumnDTO,
   ): Promise<ResponseColumnDTO> {
-    return this.columnsService.updateColumn(user_id, id, columnDto);
+    return new ResponseColumnDTO(
+      await this.columnsService.updateColumn(user_id, id, columnDto),
+    );
   }
 
   @ApiOperation({ summary: 'Удаление колонки пользователя' })
@@ -85,10 +93,12 @@ export class ColumnsController {
   @Delete('/:id')
   @ApiBearerAuth()
   @UseGuards(OwnerGuard)
-  deleteColumn(
+  async deleteColumn(
     @Param('user_id') user_id: number,
     @Param('id') id: number,
   ): Promise<ResponseColumnDTO> {
-    return this.columnsService.deleteColumn(user_id, id);
+    return new ResponseColumnDTO(
+      await this.columnsService.deleteColumn(user_id, id),
+    );
   }
 }

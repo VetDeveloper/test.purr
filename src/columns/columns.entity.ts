@@ -45,7 +45,9 @@ export class Colum {
   })
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.columns)
+  @ManyToOne(() => User, (user) => user.columns, {
+    onDelete: 'CASCADE',
+  })
   user: User;
 
   @OneToMany(() => Card, (card) => card.column)

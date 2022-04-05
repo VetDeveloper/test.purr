@@ -18,7 +18,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { OwnerGuard } from 'src/authorization/owner.guard';
-import { Card } from './cards.entity';
 import { CardsService } from './cards.service';
 import { CreateCardDTO } from './dto/create-card.dto';
 import { ResponseCardDTO } from './dto/response-card.dto';
@@ -37,12 +36,14 @@ export class CardsController {
   @ApiBearerAuth()
   @UseGuards(OwnerGuard)
   @Post()
-  create(
+  async create(
     @Param('user_id') user_id: number,
     @Param('column_id') column_id: number,
     @Body() cardsDto: CreateCardDTO,
   ): Promise<ResponseCardDTO> {
-    return this.cardsService.createCard(user_id, column_id, cardsDto);
+    return new ResponseCardDTO(
+      await this.cardsService.createCard(user_id, column_id, cardsDto),
+    );
   }
 
   @ApiOperation({
@@ -50,11 +51,13 @@ export class CardsController {
   })
   @ApiResponse({ status: 200, type: [ResponseCardDTO] })
   @Get()
-  getAllCards(
+  async getAllCards(
     @Param('user_id') user_id: number,
     @Param('column_id') column_id: number,
   ): Promise<ResponseCardDTO[]> {
-    return this.cardsService.getAllCards(user_id, column_id);
+    return (await this.cardsService.getAllCards(user_id, column_id)).map(
+      (card) => new ResponseCardDTO(card),
+    );
   }
 
   @ApiOperation({
@@ -63,12 +66,14 @@ export class CardsController {
   @ApiResponse({ status: 200, type: ResponseCardDTO })
   @ApiNotFoundResponse({ description: 'Not found.' })
   @Get('/:id')
-  getOneCard(
+  async getOneCard(
     @Param('user_id') user_id: number,
     @Param('column_id') column_id: number,
     @Param('id') id: number,
   ): Promise<ResponseCardDTO> {
-    return this.cardsService.getOneCard(user_id, column_id, id);
+    return new ResponseCardDTO(
+      await this.cardsService.getOneCard(user_id, column_id, id),
+    );
   }
 
   @ApiOperation({
@@ -80,13 +85,15 @@ export class CardsController {
   @ApiBearerAuth()
   @UseGuards(OwnerGuard)
   @Patch('/:id')
-  updateCard(
+  async updateCard(
     @Param('user_id') user_id: number,
     @Param('column_id') column_id: number,
     @Param('id') id: number,
     @Body() cardDto: UpdateCardDTO,
   ): Promise<ResponseCardDTO> {
-    return this.cardsService.updateCard(user_id, column_id, id, cardDto);
+    return new ResponseCardDTO(
+      await this.cardsService.updateCard(user_id, column_id, id, cardDto),
+    );
   }
 
   @ApiOperation({
@@ -98,11 +105,13 @@ export class CardsController {
   @ApiBearerAuth()
   @UseGuards(OwnerGuard)
   @Delete('/:id')
-  deleteCard(
+  async deleteCard(
     @Param('user_id') user_id: number,
     @Param('column_id') column_id: number,
     @Param('id') id: number,
   ): Promise<ResponseCardDTO> {
-    return this.cardsService.deleteCard(user_id, column_id, id);
+    return new ResponseCardDTO(
+      await this.cardsService.deleteCard(user_id, column_id, id),
+    );
   }
 }

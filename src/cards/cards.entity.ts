@@ -59,9 +59,13 @@ export class Card {
   @OneToMany(() => Commentary, (commentary) => commentary.card)
   comments: Commentary[];
 
-  @ManyToOne(() => User, (user) => user.cards)
+  @ManyToOne(() => User, (user) => user.cards, {
+    onDelete: 'CASCADE',
+  })
   user: User;
 
-  @ManyToOne(() => Colum, (column) => column.cards)
+  @ManyToOne(() => Colum, (column) => column.cards, {
+    onDelete: 'CASCADE',
+  })
   column: Colum;
 }

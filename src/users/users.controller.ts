@@ -31,16 +31,18 @@ export class UsersController {
   @ApiOperation({ summary: 'Получение всех пользователей' })
   @ApiResponse({ status: 200, type: [ResponseUserDTO] })
   @Get()
-  getAllUsers(): Promise<ResponseUserDTO[]> {
-    return this.usersService.getAllUsers();
+  async getAllUsers(): Promise<ResponseUserDTO[]> {
+    return (await this.usersService.getAllUsers()).map((user) => {
+      return new ResponseUserDTO({ ...user });
+    });
   }
 
   @ApiOperation({ summary: 'Получение одного пользователя' })
   @ApiResponse({ status: 200, type: ResponseUserDTO })
   @ApiNotFoundResponse({ description: 'Not found.' })
-  @Get('/:id')
-  getOneUser(@Param('id') id: number): Promise<ResponseUserDTO> {
-    return this.usersService.getOneUser(id);
+  @Get('/:user_id')
+  async getOneUser(@Param('user_id') id: number): Promise<ResponseUserDTO> {
+    return new ResponseUserDTO(await this.usersService.getOneUser(id));
   }
 
   @ApiOperation({ summary: 'Обновление пользователя' })
@@ -48,12 +50,12 @@ export class UsersController {
   @ApiNotFoundResponse({ description: 'Not found.' })
   @ApiBearerAuth()
   @UseGuards(OwnerGuard)
-  @Patch('/:id')
-  updateUser(
-    @Param('id') id: number,
+  @Patch('/:user_id')
+  async updateUser(
+    @Param('user_id') id: number,
     @Body() userDto: UpdateUserDTO,
   ): Promise<ResponseUserDTO> {
-    return this.usersService.updateUser(id, userDto);
+    return new ResponseUserDTO(await this.usersService.updateUser(id, userDto));
   }
 
   @ApiOperation({ summary: 'Удаление пользователя' })
@@ -61,8 +63,8 @@ export class UsersController {
   @ApiNotFoundResponse({ description: 'Not found.' })
   @ApiBearerAuth()
   @UseGuards(OwnerGuard)
-  @Delete('/:id')
-  deleteUser(@Param('id') id: number): Promise<ResponseUserDTO> {
-    return this.usersService.deleteUser(id);
+  @Delete('/:user_id')
+  async deleteUser(@Param('user_id') id: number): Promise<ResponseUserDTO> {
+    return new ResponseUserDTO(await this.usersService.deleteUser(id));
   }
 }

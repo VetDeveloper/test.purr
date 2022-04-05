@@ -32,6 +32,7 @@ export class CardsService {
     await this.usersService.getOneUser(user_id);
     const cards = await this.cardsRepository.find({
       where: { userId: user_id, columnId: column_id },
+      relations: ['user', 'comments', 'column'],
     });
     return cards;
   }
@@ -43,6 +44,7 @@ export class CardsService {
   ): Promise<Card> {
     const card = await this.cardsRepository.findOne({
       where: { userId: user_id, columnId: column_id, id: id },
+      relations: ['user', 'comments', 'column'],
     });
 
     if (!card) {
