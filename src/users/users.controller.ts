@@ -16,7 +16,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { OwnerGuard } from 'src/authorization/owner.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { UserOwnerGuard } from 'src/auth/guards/userOwner.guard';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { ResponseUserDTO } from './dto/response-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
@@ -49,7 +50,7 @@ export class UsersController {
   @ApiResponse({ status: 200, type: ResponseUserDTO })
   @ApiNotFoundResponse({ description: 'Not found.' })
   @ApiBearerAuth()
-  @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard, UserOwnerGuard)
   @Patch('/:user_id')
   async updateUser(
     @Param('user_id') id: number,
@@ -62,7 +63,7 @@ export class UsersController {
   @ApiResponse({ status: 200, type: ResponseUserDTO })
   @ApiNotFoundResponse({ description: 'Not found.' })
   @ApiBearerAuth()
-  @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard, UserOwnerGuard)
   @Delete('/:user_id')
   async deleteUser(@Param('user_id') id: number): Promise<ResponseUserDTO> {
     return new ResponseUserDTO(await this.usersService.deleteUser(id));

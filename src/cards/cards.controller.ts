@@ -17,7 +17,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { OwnerGuard } from 'src/authorization/owner.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { UserOwnerGuard } from 'src/auth/guards/userOwner.guard';
 import { CardsService } from './cards.service';
 import { CreateCardDTO } from './dto/create-card.dto';
 import { ResponseCardDTO } from './dto/response-card.dto';
@@ -34,7 +35,7 @@ export class CardsController {
   @ApiResponse({ status: 201, type: ResponseCardDTO })
   @ApiNotFoundResponse({ description: 'Not found.' })
   @ApiBearerAuth()
-  @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard, UserOwnerGuard)
   @Post()
   async create(
     @Param('user_id') user_id: number,
@@ -83,7 +84,7 @@ export class CardsController {
   @ApiNotFoundResponse({ description: 'Not found.' })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   @ApiBearerAuth()
-  @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard, UserOwnerGuard)
   @Patch('/:id')
   async updateCard(
     @Param('user_id') user_id: number,
@@ -103,7 +104,7 @@ export class CardsController {
   @ApiNotFoundResponse({ description: 'Not found.' })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   @ApiBearerAuth()
-  @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard, UserOwnerGuard)
   @Delete('/:id')
   async deleteCard(
     @Param('user_id') user_id: number,

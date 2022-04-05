@@ -4,7 +4,7 @@ import { UsersModule } from './users/users.module';
 import { ColumnsModule } from './columns/columns.module';
 import { CardsModule } from './cards/cards.module';
 import { CommentsModule } from './comments/comments.module';
-import { AuthorizationModule } from './authorization/authorization.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   controllers: [],
@@ -15,7 +15,7 @@ import { AuthorizationModule } from './authorization/authorization.module';
     ColumnsModule,
     CardsModule,
     CommentsModule,
-    AuthorizationModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

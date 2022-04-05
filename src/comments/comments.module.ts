@@ -3,9 +3,9 @@ import { CommentsService } from './comments.service';
 import { CommentsController } from './comments.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Commentary } from './comments.entity';
-import { AuthorizationModule } from 'src/authorization/authorization.module';
 import { CardsModule } from 'src/cards/cards.module';
 import { UsersModule } from 'src/users/users.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   providers: [CommentsService],
@@ -14,7 +14,7 @@ import { UsersModule } from 'src/users/users.module';
     TypeOrmModule.forFeature([Commentary]),
     CardsModule,
     UsersModule,
-    AuthorizationModule,
+    AuthModule,
   ],
 })
 export class CommentsModule {}

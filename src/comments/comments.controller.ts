@@ -17,8 +17,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { OwnerGuard } from 'src/authorization/owner.guard';
-import { Commentary } from './comments.entity';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { UserOwnerGuard } from 'src/auth/guards/userOwner.guard';
 import { CommentsService } from './comments.service';
 import { CreateCommentaryDTO } from './dto/create-commentary.dto';
 import { ResponseCommentatyDTO } from './dto/response-commentary.dto';
@@ -33,7 +33,7 @@ export class CommentsController {
   @ApiResponse({ status: 201, type: ResponseCommentatyDTO })
   @ApiNotFoundResponse({ description: 'Not found.' })
   @ApiBearerAuth()
-  @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard, UserOwnerGuard)
   @Post()
   async create(
     @Param('user_id') user_id: number,
@@ -97,7 +97,7 @@ export class CommentsController {
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   @ApiNotFoundResponse({ description: 'Not found.' })
   @ApiBearerAuth()
-  @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard, UserOwnerGuard)
   @Patch('/:id')
   async updateCommentary(
     @Param('user_id') user_id: number,
@@ -125,7 +125,7 @@ export class CommentsController {
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   @ApiNotFoundResponse({ description: 'Not found.' })
   @ApiBearerAuth()
-  @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard, UserOwnerGuard)
   @Delete('/:id')
   async deleteColumn(
     @Param('user_id') user_id: number,

@@ -17,8 +17,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { OwnerGuard } from 'src/authorization/owner.guard';
-import { Colum } from './columns.entity';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { UserOwnerGuard } from 'src/auth/guards/userOwner.guard';
 import { ColumnsService } from './columns.service';
 import { CreateColumnDTO } from './dto/create-column.dto';
 import { ResponseColumnDTO } from './dto/response-column.dto';
@@ -33,7 +33,7 @@ export class ColumnsController {
   @ApiResponse({ status: 201, type: ResponseColumnDTO })
   @ApiNotFoundResponse({ description: 'Not found.' })
   @ApiBearerAuth()
-  @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard, UserOwnerGuard)
   @Post()
   async create(
     @Param('user_id') user_id: number,
@@ -75,7 +75,7 @@ export class ColumnsController {
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Patch('/:id')
   @ApiBearerAuth()
-  @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard, UserOwnerGuard)
   async updateColumn(
     @Param('user_id') user_id: number,
     @Param('id') id: number,
@@ -92,7 +92,7 @@ export class ColumnsController {
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Delete('/:id')
   @ApiBearerAuth()
-  @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard, UserOwnerGuard)
   async deleteColumn(
     @Param('user_id') user_id: number,
     @Param('id') id: number,
